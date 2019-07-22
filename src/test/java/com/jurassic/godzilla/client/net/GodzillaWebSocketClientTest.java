@@ -21,7 +21,7 @@ public class GodzillaWebSocketClientTest {
     @Before
     public void init(){
         WebsocketClientBuilder builder = new WebsocketClientBuilder();
-        builder.setHostDefault("47.101.11.18")
+        builder.setHostDefault("服务器IP")
                 .addListenerOnClose((code, reason, remote) -> System.out.println(code+":"+reason+":"+remote))
                 .addListenerOnError((e)-> e.printStackTrace())
                 .addListenerOnMessage(message -> System.out.println(message))
