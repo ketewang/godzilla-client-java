@@ -2,11 +2,13 @@ package com.jurassic.godzilla.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.junit.Test;
 
 import java.util.Map;
 
 public class Serialize {
-    public static void main(String[] args) {
+    @Test
+    public void testMessageFormat(){
         Gson gson = new GsonBuilder().create();
         MessageBody messageBody = new MessageBody();
         messageBody.setBodyType(BodyType.FOWARD_DESTINATION);
