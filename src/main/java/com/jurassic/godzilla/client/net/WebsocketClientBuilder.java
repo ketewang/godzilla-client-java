@@ -64,16 +64,16 @@ public class WebsocketClientBuilder {
         return this;
     }
 
-    public WebSocketClient create() throws URISyntaxException {
+    public GodzillaWebSocketClient create() throws URISyntaxException {
         final OpenListener openListener = this.openListener;
         final CloseListener closeListener = this.closeListener;
         final ErrorListener errorListener = this.errorListener;
         final ReceiveListener receiveListener = this.receiveListener;
 
-        return create(openListener,closeListener,errorListener,receiveListener);
+        return create(openListener, closeListener, errorListener, receiveListener);
     }
 
-    public WebSocketClient create(final OpenListener openListener, final CloseListener closeListener, final ErrorListener errorListener, final ReceiveListener receiveListener) throws URISyntaxException {
+    public GodzillaWebSocketClient create(final OpenListener openListener, final CloseListener closeListener, final ErrorListener errorListener, final ReceiveListener receiveListener) throws URISyntaxException {
         WebSocketClient webSocketClient = new WebSocketClient(new URI("ws://" + this.host + ":" + this.port + this.path)) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
@@ -104,6 +104,6 @@ public class WebsocketClientBuilder {
             }
         };
 
-        return webSocketClient;
+        return new GodzillaWebSocketClient(webSocketClient);
     }
 }

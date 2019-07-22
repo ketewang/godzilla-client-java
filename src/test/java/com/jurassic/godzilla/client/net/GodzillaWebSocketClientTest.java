@@ -27,8 +27,8 @@ public class GodzillaWebSocketClientTest {
                 .addListenerOnMessage(message -> System.out.println(message))
                 .addListenerOnOpen(serverHandshake -> System.out.println(serverHandshake));
         try {
-            godzillaWebSocketClientA = new GodzillaWebSocketClient(builder.create());
-            godzillaWebSocketClientB = new GodzillaWebSocketClient(builder.create());
+            godzillaWebSocketClientA = builder.create();
+            godzillaWebSocketClientB = builder.create();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
