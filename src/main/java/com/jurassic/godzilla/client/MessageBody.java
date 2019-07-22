@@ -12,4 +12,5 @@ public class MessageBody implements Serializable {
     private String protocolType;
     private byte bodyType;
     private String data;
+    private String appId;
 }

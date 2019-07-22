@@ -14,6 +14,7 @@ public class Serialize {
         messageBody.setToId("anotherClientId");
         messageBody.setProtocolType(ProtocolType.WEBSOCKET);
         messageBody.setRefCount(0);
+        messageBody.setAppId("appId");
 
         Map<String, Object> data = new DataBuilder()
                 .measurement("tableName")
@@ -27,7 +28,6 @@ public class Serialize {
                 .strictlyValidate()
                 .create();
         messageBody.setData(gson.toJson(data));
-
         String jsonStr = gson.toJson(messageBody);
         System.out.println(jsonStr);
     }

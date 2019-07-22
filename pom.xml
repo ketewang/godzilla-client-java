@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.jurassic.godzilla</groupId>
     <artifactId>godzilla-client-java</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2.0-RELEASE</version>
     <name>godzilla-client-java</name>
     <description>godzilla client java</description>
 
@@ -41,15 +41,20 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.4.0</version>
+        </dependency>
     </dependencies>
 
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 </project>
