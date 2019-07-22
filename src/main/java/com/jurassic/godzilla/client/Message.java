@@ -5,11 +5,11 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class MessageBody implements Serializable {
+public class Message implements Serializable {
     private String fromId;
     private String toId;
     private int refCount;
-    private String protocolType;
+    private byte protocolType;
     private byte bodyType;
     private String data;
     private String appId;

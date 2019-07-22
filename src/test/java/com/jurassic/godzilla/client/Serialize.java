@@ -10,13 +10,13 @@ public class Serialize {
     @Test
     public void testMessageFormat(){
         Gson gson = new GsonBuilder().create();
-        MessageBody messageBody = new MessageBody();
-        messageBody.setBodyType(BodyType.FOWARD_DESTINATION);
-        messageBody.setFromId("clientId");
-        messageBody.setToId("anotherClientId");
-        messageBody.setProtocolType(ProtocolType.WEBSOCKET);
-        messageBody.setRefCount(0);
-        messageBody.setAppId("appId");
+        Message message = new Message();
+        message.setBodyType(BodyType.FOWARD_DESTINATION);
+        message.setFromId("clientId");
+        message.setToId("anotherClientId");
+        message.setProtocolType(ProtocolType.WEBSOCKET);
+        message.setRefCount(0);
+        message.setAppId("appId");
 
         Map<String, Object> data = new DataBuilder()
                 .measurement("tableName")
@@ -26,11 +26,13 @@ public class Serialize {
                 .field("field2", "fieldValue2")
                 .tag("tag1", Long.valueOf("11111111111111"))
                 .tag("tag2", "tagValue2")
+                //检查内容是否合法  可选
                 .simpleValidate()
+                //检查内容是否合法  可选
                 .strictlyValidate()
                 .create();
-        messageBody.setData(gson.toJson(data));
-        String jsonStr = gson.toJson(messageBody);
+        message.setData(gson.toJson(data));
+        String jsonStr = gson.toJson(message);
         System.out.println(jsonStr);
     }
 }

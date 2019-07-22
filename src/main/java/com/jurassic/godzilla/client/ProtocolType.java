@@ -1,6 +1,6 @@
 package com.jurassic.godzilla.client;
 
 public class ProtocolType {
-    public static final String WEBSOCKET = "4";
+    public static final byte WEBSOCKET = 4;
 
 }
