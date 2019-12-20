@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.jurassic.godzilla</groupId>
     <artifactId>godzilla-client-java</artifactId>
-    <version>0.2.0-RELEASE</version>
+    <version>0.2.1-RELEASE</version>
     <name>godzilla-client-java</name>
     <description>godzilla client java</description>
 
