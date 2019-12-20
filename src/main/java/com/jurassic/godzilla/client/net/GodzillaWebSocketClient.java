@@ -106,6 +106,7 @@ public class GodzillaWebSocketClient implements WebSocket {
 
     @Override
     public void send(ByteBuffer bytes) {
+        waitOpen();
         webSocketClient.send(bytes);
     }
 
