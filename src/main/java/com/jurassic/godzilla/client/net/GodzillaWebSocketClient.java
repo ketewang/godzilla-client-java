@@ -28,18 +28,6 @@ public class GodzillaWebSocketClient implements WebSocket {
         this.webSocketClient = webSocketClient;
     }
 
-    public boolean waitOpen() {
-        while (!getReadyState().equals(ReadyState.OPEN)) {
-            try {
-                Thread.sleep(10L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return true;
-    }
-
     public Message crtHBMessage(final String appId, final String fromId) {
         Message message = new Message();
         message.setBodyType(BodyType.HEART_BEAT);
@@ -58,11 +46,12 @@ public class GodzillaWebSocketClient implements WebSocket {
             @Override
             public void run() {
                 while (true) {
-                    waitOpen();
-                    send(JSONUtil.toJson(crtHBMessage(appId, fromId)));
-                    try {
-                        Thread.sleep(interval);
-                    } catch (InterruptedException e) {
+                    if (getReadyState().equals(ReadyState.OPEN)) {
+                        send(JSONUtil.toJson(crtHBMessage(appId, fromId)));
+                        try {
+                            Thread.sleep(interval);
+                        } catch (InterruptedException e) {
+                        }
                     }
                 }
             }
@@ -100,44 +89,51 @@ public class GodzillaWebSocketClient implements WebSocket {
 
     @Override
     public void send(String text) {
-        waitOpen();
-        webSocketClient.send(text);
+        if (getReadyState().equals(ReadyState.OPEN)) {
+            webSocketClient.send(text);
+        }
     }
 
     @Override
     public void send(ByteBuffer bytes) {
-        waitOpen();
-        webSocketClient.send(bytes);
+        if (getReadyState().equals(ReadyState.OPEN)) {
+            webSocketClient.send(bytes);
+        }
     }
 
     @Override
     public void send(byte[] bytes) {
-        waitOpen();
-        webSocketClient.send(bytes);
+        if (getReadyState().equals(ReadyState.OPEN)) {
+            webSocketClient.send(bytes);
+        }
     }
 
     @Override
     public void sendFrame(Framedata framedata) {
-        waitOpen();
-        webSocketClient.sendFrame(framedata);
+        if (getReadyState().equals(ReadyState.OPEN)) {
+            webSocketClient.sendFrame(framedata);
+        }
     }
 
     @Override
     public void sendFrame(Collection<Framedata> frames) {
-        waitOpen();
-        webSocketClient.sendFrame(frames);
+        if (getReadyState().equals(ReadyState.OPEN)) {
+            webSocketClient.sendFrame(frames);
+        }
     }
 
     @Override
     public void sendPing() {
-        waitOpen();
-        webSocketClient.sendPing();
+        if (getReadyState().equals(ReadyState.OPEN)) {
+            webSocketClient.sendPing();
+        }
     }
 
     @Override
     public void sendFragmentedFrame(Opcode op, ByteBuffer buffer, boolean fin) {
-        waitOpen();
-        webSocketClient.sendFragmentedFrame(op, buffer, fin);
+        if (getReadyState().equals(ReadyState.OPEN)) {
+            webSocketClient.sendFragmentedFrame(op, buffer, fin);
+        }
     }
 
     @Override
