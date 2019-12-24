@@ -200,8 +200,12 @@ public class GodzillaWebSocketClient implements WebSocket {
         webSocketClient.connect();
     }
 
-    public void connectWithHB(final String appId, final String fromId, long interval) {
-        webSocketClient.connect();
+    public void connectBlocking() throws InterruptedException {
+        webSocketClient.connectBlocking();
+    }
+
+    public void connectWithHB(final String appId, final String fromId, long interval) throws InterruptedException {
+        webSocketClient.connectBlocking();
         crtHeartBeat(appId, fromId, interval);
     }
 
