@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WebsocketClientBuilder {
     private WebSocketClient client;
+    private GodzillaWebSocketClient godzillaWebSocketClient;
     public static final AtomicBoolean isOpen = new AtomicBoolean(true);
     private static final String DEFAULT_PORT = "8081";
     private static final String DEFAULT_PATH = "/ws";
@@ -103,7 +104,7 @@ public class WebsocketClientBuilder {
                 }
             }
         };
-
-        return new GodzillaWebSocketClient(webSocketClient);
+        godzillaWebSocketClient = new GodzillaWebSocketClient(webSocketClient);
+        return godzillaWebSocketClient;
     }
 }
