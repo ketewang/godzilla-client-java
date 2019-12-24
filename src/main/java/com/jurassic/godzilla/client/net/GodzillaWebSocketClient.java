@@ -14,8 +14,7 @@ import org.java_websocket.framing.Framedata;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.util.Collection;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class GodzillaWebSocketClient implements WebSocket {
     private WebSocketClient webSocketClient;
@@ -89,51 +88,86 @@ public class GodzillaWebSocketClient implements WebSocket {
 
     @Override
     public void send(String text) {
-        if (getReadyState().equals(ReadyState.OPEN)) {
-            webSocketClient.send(text);
-        }
+        SendMsgHelper.send(() -> {
+            while (true) {
+                if (getReadyState().equals(ReadyState.OPEN)) {
+                    webSocketClient.send(text);
+                    return;
+                }
+            }
+        });
     }
 
     @Override
     public void send(ByteBuffer bytes) {
-        if (getReadyState().equals(ReadyState.OPEN)) {
-            webSocketClient.send(bytes);
-        }
+        SendMsgHelper.send(() -> {
+            while (true) {
+                if (getReadyState().equals(ReadyState.OPEN)) {
+                    webSocketClient.send(bytes);
+                    return;
+                }
+            }
+        });
     }
 
     @Override
     public void send(byte[] bytes) {
-        if (getReadyState().equals(ReadyState.OPEN)) {
-            webSocketClient.send(bytes);
-        }
+        SendMsgHelper.send(() -> {
+            while (true) {
+                if (getReadyState().equals(ReadyState.OPEN)) {
+                    webSocketClient.send(bytes);
+                    return;
+                }
+            }
+        });
     }
 
     @Override
     public void sendFrame(Framedata framedata) {
-        if (getReadyState().equals(ReadyState.OPEN)) {
-            webSocketClient.sendFrame(framedata);
-        }
+        SendMsgHelper.send(() -> {
+            while (true) {
+                if (getReadyState().equals(ReadyState.OPEN)) {
+                    webSocketClient.sendFrame(framedata);
+                    return;
+                }
+            }
+        });
     }
 
     @Override
     public void sendFrame(Collection<Framedata> frames) {
-        if (getReadyState().equals(ReadyState.OPEN)) {
-            webSocketClient.sendFrame(frames);
-        }
+        SendMsgHelper.send(() -> {
+            while (true) {
+                if (getReadyState().equals(ReadyState.OPEN)) {
+                    webSocketClient.sendFrame(frames);
+                    return;
+                }
+            }
+        });
     }
 
     @Override
     public void sendPing() {
-        if (getReadyState().equals(ReadyState.OPEN)) {
-            webSocketClient.sendPing();
-        }
+        SendMsgHelper.send(() -> {
+            while (true) {
+                if (getReadyState().equals(ReadyState.OPEN)) {
+                    webSocketClient.sendPing();
+                    return;
+                }
+            }
+        });
     }
 
     @Override
     public void sendFragmentedFrame(Opcode op, ByteBuffer buffer, boolean fin) {
-        if (getReadyState().equals(ReadyState.OPEN)) {
-            webSocketClient.sendFragmentedFrame(op, buffer, fin);
-        }
+        SendMsgHelper.send(() -> {
+            while (true) {
+                if (getReadyState().equals(ReadyState.OPEN)) {
+                    webSocketClient.sendFragmentedFrame(op, buffer, fin);
+                    return;
+                }
+            }
+        });
     }
 
     @Override
@@ -209,4 +243,37 @@ public class GodzillaWebSocketClient implements WebSocket {
         crtHeartBeat(appId, fromId, interval);
     }
 
+    private static class SendMsgHelper {
+        private static final int DEFAULT_TIMEOUT = 10;
+
+        public static void send(Executor executor) {
+            ExecutorService retryExecutor = Executors.newSingleThreadExecutor();
+            Future future = retryExecutor.submit(() -> {
+                executor.execute();
+            });
+
+            try {
+                future.get(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+            } catch (Exception e) {
+                //包含InterruptedException ExecutionException TimeoutException 用户需要关系超时异常
+                throw new RuntimeException(e);
+            } finally {
+                retryExecutor.shutdownNow();
+            }
+        }
+    }
+
+    private interface Executor {
+        void execute();
+    }
+
+    public static void main(String[] args) {
+        SendMsgHelper.send(() -> {
+            try {
+                Thread.sleep(15000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
