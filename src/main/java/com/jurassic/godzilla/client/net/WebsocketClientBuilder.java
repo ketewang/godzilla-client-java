@@ -45,6 +45,14 @@ public class WebsocketClientBuilder {
         return this;
     }
 
+    public GodzillaWebSocketClient getGodzillaWebSocketClient() {
+        return godzillaWebSocketClient;
+    }
+
+    public void setGodzillaWebSocketClient(GodzillaWebSocketClient godzillaWebSocketClient) {
+        this.godzillaWebSocketClient = godzillaWebSocketClient;
+    }
+
     public WebsocketClientBuilder addListenerOnOpen(final OpenListener openListener) {
         this.openListener = openListener;
         return this;
